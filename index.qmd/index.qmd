@@ -1,0 +1,329 @@
+
+---
+title: "Social Media Use and Student Well-Being"
+author: "Marjan Nikbakhtzadeh"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+---
+
+# Story Summary
+
+How is social media use related to well-being among first-year university students? We examined data from 158 students to explore whether more frequent social media use was associated with more problematic use and whether problematic use was similarly related to different aspects of well-being.
+
+Most students reported using social media for at least 3 hours per day. Students in higher-frequency use groups generally had higher problematic-use scores, although the pattern was not perfectly consistent across every group. A Kruskal–Wallis test indicated differences in problematic-use scores across the five frequency groups.
+
+The story became more nuanced when we examined well-being outcomes. Problematic social media use was modestly and positively associated with depression and anxiety scores, but there was no evidence of a linear association with loneliness.
+
+Together, these findings suggest that the relationship between social media use and student well-being is not simply a story of “more social media is worse.” More frequent use was generally linked to greater problematic use, while problematic use showed different relationships across well-being outcomes.
+
+# Version A: Scientific Article
+
+## Social Media Use, Problematic Use, and Well-Being Among First-Year University Students
+
+### 1. Reported Social Media Use
+
+We first examined the distribution of reported social media use frequency among 158 first-year university students. The largest groups reported using social media for less than 2 hours or 3 hours or more per day, while fewer students were in the 5-hour and 6-hour categories.
+
+```{r}
+#| label: fig-science-frequency
+#| fig-cap: "Figure 1. Number of students in each reported social media use frequency category (n = 158)."
+#| fig-width: 7
+#| fig-height: 4.5
+
+library(haven)
+library(ggplot2)
+
+mydata <- haven::read_sav(
+  "C:/Users/nikba/OneDrive/Desktop/SocialMedia_Story/index.qmd/data.sav.sav"
+)
+
+mydata$Q16_label <- factor(
+  mydata$Q16,
+  levels = c(2, 3, 4, 5, 6),
+  labels = c(
+    "Less than 2 hrs",
+    "3 hrs+",
+    "4 hrs+",
+    "5 hrs+",
+    "6 hrs+"
+  ),
+  ordered = TRUE
+)
+
+ggplot(mydata, aes(x = Q16_label)) +
+  geom_bar(fill = "grey70", color = "black") +
+  geom_text(
+    stat = "count",
+    aes(label = after_stat(count)),
+    vjust = -0.3
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.12))) +
+  labs(
+    x = "Reported social media use category",
+    y = "Number of students"
+  ) +
+  theme_classic(base_size = 12)
+```
+
+### 2. Frequency of Use and Problematic Use
+
+The next analysis examined whether problematic social media use scores differed across reported frequency groups. The distributions generally suggest higher problematic-use scores in the higher-frequency groups, although the pattern is not strictly increasing in every category.
+
+```{r}
+#| label: fig-science-problematic
+#| fig-cap: "Figure 2. Distribution of problematic social media use scores across reported frequency groups. Points represent individual students."
+#| fig-width: 7
+#| fig-height: 4.5
+
+ggplot(
+  mydata,
+  aes(x = Q16_label, y = ProblematicUse)
+) +
+  geom_boxplot(
+    fill = "grey90",
+    color = "black",
+    width = 0.6,
+    outlier.shape = NA
+  ) +
+  geom_jitter(
+    width = 0.12,
+    alpha = 0.35,
+    size = 1.5
+  ) +
+  labs(
+    x = "Reported social media use category",
+    y = "Problematic social media use score"
+  ) +
+  theme_classic(base_size = 12)
+```
+
+A Kruskal–Wallis test was used to examine differences in problematic-use scores across the five frequency groups.
+
+```{r}
+#| label: test-frequency
+#| echo: false
+#| results: hide
+
+kruskal.test(
+  ProblematicUse ~ Q16_label,
+  data = mydata
+)
+```
+
+The test indicated that problematic-use scores differed across the five groups, \(\chi^2(4) = 11.97\), \(p = .018\). This result indicates that at least one group differs from another; it does not establish which specific groups differ.
+
+### 3. Problematic Use and Well-Being
+
+Finally, we examined associations between problematic social media use and three well-being measures: depression, anxiety, and loneliness. Pearson correlations were used to quantify linear associations. Scatterplots show individual observations and fitted linear trends with 95% confidence bands.
+
+```{r}
+#| label: fig-science-wellbeing
+#| fig-cap: "Figure 3. Associations between problematic social media use and depression, anxiety, and loneliness scores. Lines show least-squares linear fits with 95% confidence bands. Loneliness has four missing observations; its analysis includes 154 students, compared with 158 for depression and anxiety."
+#| fig-width: 9
+#| fig-height: 4.5
+
+wellbeing_data <- rbind(
+  data.frame(
+    ProblematicUse = mydata$ProblematicUse,
+    Outcome = "Depression",
+    Score = mydata$Depression
+  ),
+  data.frame(
+    ProblematicUse = mydata$ProblematicUse,
+    Outcome = "Anxiety",
+    Score = mydata$Anxiety
+  ),
+  data.frame(
+    ProblematicUse = mydata$ProblematicUse,
+    Outcome = "Loneliness",
+    Score = mydata$Loneliness
+  )
+)
+
+wellbeing_data$Outcome <- factor(
+  wellbeing_data$Outcome,
+  levels = c("Depression", "Anxiety", "Loneliness")
+)
+
+ggplot(
+  wellbeing_data,
+  aes(x = ProblematicUse, y = Score)
+) +
+  geom_point(alpha = 0.4, size = 1.5) +
+  geom_smooth(
+    method = "lm",
+    se = TRUE,
+    color = "black"
+  ) +
+  facet_wrap(~ Outcome, scales = "free_y") +
+  labs(
+    x = "Problematic social media use score",
+    y = "Well-being score"
+  ) +
+  theme_classic(base_size = 11)
+```
+
+```{r}
+#| label: test-correlations
+#| echo: false
+#| results: hide
+
+cor.test(
+  mydata$ProblematicUse,
+  mydata$Depression,
+  use = "complete.obs"
+)
+
+cor.test(
+  mydata$ProblematicUse,
+  mydata$Anxiety,
+  use = "complete.obs"
+)
+
+cor.test(
+  mydata$ProblematicUse,
+  mydata$Loneliness,
+  use = "complete.obs"
+)
+```
+
+Problematic-use scores showed modest positive associations with depression (\(r = .233\), \(p = .003\)) and anxiety (\(r = .208\), \(p = .009\)). There was no evidence of a linear association with loneliness (\(r = .035\), \(p = .671\)). These associations do not establish causation.
+
+# Version B: Accessible Story
+
+## Is More Social Media Really Worse for Students?
+
+Social media is part of everyday life for many students. But does spending more time on it tell us whether students are struggling? And does problematic use relate to every aspect of well-being in the same way?
+
+We explored responses from 158 first-year university students. Here is what stood out.
+
+### 1. Social Media Is a Big Part of Student Life
+
+The responses covered all five reported use categories. The largest groups reported less than 2 hours or 3 hours or more per day, while 47 students were in the 5-hour and 6-hour categories combined.
+
+```{r}
+#| label: fig-accessible-frequency
+#| fig-cap: "Figure 4. Students reported a range of social media use frequencies. Each bar represents the number of students in a category."
+#| fig-width: 7
+#| fig-height: 4.5
+
+ggplot(mydata, aes(x = Q16_label)) +
+  geom_bar(fill = "#168C8C", color = "white") +
+  geom_text(
+    stat = "count",
+    aes(label = after_stat(count)),
+    vjust = -0.3,
+    size = 4
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.12))) +
+  labs(
+    title = "How much time do students spend on social media?",
+    x = "Reported daily use",
+    y = "Number of students"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank()
+  )
+```
+
+### 2. More Time Often Goes Along With More Problematic Use
+
+Students in the higher reported-use categories generally had higher problematic-use scores. However, the pattern was not identical across every group. Time spent on social media and problematic use are related ideas, but they are not the same thing.
+
+```{r}
+#| label: fig-accessible-problematic
+#| fig-cap: "Figure 5. Problematic-use scores varied across reported social media use groups. Each dot represents a student."
+#| fig-width: 7
+#| fig-height: 4.5
+
+ggplot(
+  mydata,
+  aes(x = Q16_label, y = ProblematicUse)
+) +
+  geom_boxplot(
+    fill = "#BFE8E5",
+    color = "#176B68",
+    width = 0.6,
+    outlier.shape = NA
+  ) +
+  geom_jitter(
+    width = 0.12,
+    alpha = 0.4,
+    color = "#176B68",
+    size = 1.6
+  ) +
+  labs(
+    title = "More time, more problematic use?",
+    subtitle = "The overall pattern rises, but not perfectly at every step.",
+    x = "Reported daily use",
+    y = "Problematic-use score"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank()
+  )
+```
+
+### 3. Well-Being Is Not One Single Thing
+
+Here is the important twist. Problematic social media use was associated with higher depression and anxiety scores in this sample. But we did not find evidence of a linear relationship with loneliness.
+
+```{r}
+#| label: fig-accessible-wellbeing
+#| fig-cap: "Figure 6. Problematic social media use showed different patterns of association with three well-being measures. The fitted lines summarize linear trends; they do not show cause and effect."
+#| fig-width: 9
+#| fig-height: 4.5
+
+ggplot(
+  wellbeing_data,
+  aes(x = ProblematicUse, y = Score, color = Outcome)
+) +
+  geom_point(alpha = 0.45, size = 1.5) +
+  geom_smooth(
+    method = "lm",
+    se = TRUE,
+    show.legend = FALSE
+  ) +
+  facet_wrap(~ Outcome, scales = "free_y") +
+  scale_color_manual(
+    values = c(
+      "Depression" = "#B54545",
+      "Anxiety" = "#2867A8",
+      "Loneliness" = "#168C8C"
+    )
+  ) +
+  labs(
+    title = "Problematic use relates to some outcomes more than others",
+    subtitle = "Depression and anxiety rise modestly; loneliness shows little linear relationship.",
+    x = "Problematic social media use score",
+    y = "Well-being score"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  )
+```
+
+### What Should We Take Away?
+
+It is tempting to describe social media as simply good or bad. These data tell a more nuanced story. More frequent use generally went along with higher problematic-use scores, and problematic use was modestly associated with depression and anxiety. Loneliness, however, showed a different pattern.
+
+These results describe associations in one student sample. They do not show that social media use caused changes in mental health, and they should not be generalized to every student.
+
+# Data and Source Note
+
+The data come from the University of Liverpool dataset *Social Media use on 1st-year Students' Experiences and Well-being*, available through Zenodo (DOI: [10.5281/zenodo.13759037](https://doi.org/10.5281/zenodo.13759037)). The dataset contains responses from 158 first-year university students.
+
+This analysis focuses on reported social media use frequency (Q16), problematic social media use (ProblematicUse), and three well-being measures: depression, anxiety, and loneliness. Q16 was converted from its original numeric coding into five ordered categories: less than 2 hours, 3 hours+, 4 hours+, 5 hours+, and 6 hours+.
+
+We summarized use frequency with counts, compared problematic-use scores across frequency groups using a Kruskal–Wallis test, and examined linear associations between problematic use and each well-being measure using Pearson correlations. Figures use bar charts, boxplots with individual observations, and scatterplots with fitted linear trends and 95% confidence bands.
+
+The data are observational and self-reported. Therefore, the associations should not be interpreted as causal effects. Four students had missing loneliness observations, so the loneliness analysis used 154 observations; the depression and anxiety analyses used 158 observations. The sample may not represent all university students or other populations. The reported use categories are treated as ordered categories, and the labels should not be interpreted as exact, equally spaced measurements of time.
