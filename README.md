@@ -2,8 +2,6 @@
 
 **An accessible data story exploring social media use, problematic use, and well-being among first-year university students.**
 
-[**Explore the Live Story →**](https://nikbakhtzadeh-bit.github.io/SocialMedia_Story/)
-
 ## Project Summary
 
 How is social media use related to student well-being?
