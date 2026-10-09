@@ -12,6 +12,14 @@ The findings suggest that the relationship between social media use and well-bei
 
 These are observational findings and do not establish cause-and-effect relationships.
 
+## Story Summary
+
+Social media is an important part of university students’ daily lives, but its relationship with well-being is complex. This project explores social media use among students, focusing on how usage frequency relates to problematic social media use and different aspects of psychological well-being.
+
+The visualizations highlight three key questions: How frequently do students use social media? Does problematic social media use differ across usage-frequency groups? And how is social media use associated with well-being measures such as depression, anxiety, and loneliness?
+
+The findings suggest that more frequent social media use is associated with differences in problematic use, while its relationships with well-being vary across measures. These patterns highlight why social media use and student well-being should be considered from multiple perspectives.
+
 ## Key Findings
 
 * **Frequency and problematic use:** Problematic-use scores differed across the five reported frequency groups (Kruskal–Wallis test: χ²(4) = 11.97, *p* = .018).
