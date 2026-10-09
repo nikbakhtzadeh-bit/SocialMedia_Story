@@ -28,18 +28,19 @@ Together, these findings suggest that the relationship between social media use 
 We first examined the distribution of reported social media use frequency among 158 first-year university students. The largest groups reported using social media for less than 2 hours or 3 hours or more per day, while fewer students were in the 5-hour and 6-hour categories.
 
 ```{r}
-#| label: fig-science-frequency
-#| fig-cap: "Figure 1. Number of students in each reported social media use frequency category (n = 158)."
-#| fig-width: 7
-#| fig-height: 4.5
+#| label: setup
+#| include: false
 
 library(haven)
 library(ggplot2)
 
-mydata <- haven::read_sav(
-  "C:/Users/nikba/OneDrive/Desktop/SocialMedia_Story/index.qmd/data.sav.sav"
-)
+# Create the figures folder if it does not already exist
+dir.create("figures", showWarnings = FALSE, recursive = TRUE)
 
+# Read the dataset from the project folder
+mydata <- haven::read_sav("data.sav.sav")
+
+# Convert the original numeric coding into ordered categories
 mydata$Q16_label <- factor(
   mydata$Q16,
   levels = c(2, 3, 4, 5, 6),
@@ -52,8 +53,15 @@ mydata$Q16_label <- factor(
   ),
   ordered = TRUE
 )
+```
 
-ggplot(mydata, aes(x = Q16_label)) +
+```{r}
+#| label: fig-science-frequency
+#| fig-cap: "Figure 1. Number of students in each reported social media use frequency category (n = 158)."
+#| fig-width: 7
+#| fig-height: 4.5
+
+p1 <- ggplot(mydata, aes(x = Q16_label)) +
   geom_bar(fill = "grey70", color = "black") +
   geom_text(
     stat = "count",
@@ -66,6 +74,16 @@ ggplot(mydata, aes(x = Q16_label)) +
     y = "Number of students"
   ) +
   theme_classic(base_size = 12)
+
+ggsave(
+  "figures/social_media_frequency.png",
+  plot = p1,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+p1
 ```
 
 ### 2. Frequency of Use and Problematic Use
@@ -78,7 +96,7 @@ The next analysis examined whether problematic social media use scores differed 
 #| fig-width: 7
 #| fig-height: 4.5
 
-ggplot(
+p2 <- ggplot(
   mydata,
   aes(x = Q16_label, y = ProblematicUse)
 ) +
@@ -98,6 +116,16 @@ ggplot(
     y = "Problematic social media use score"
   ) +
   theme_classic(base_size = 12)
+
+ggsave(
+  "figures/problematic_use_scientific.png",
+  plot = p2,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+p2
 ```
 
 A Kruskal–Wallis test was used to examine differences in problematic-use scores across the five frequency groups.
@@ -120,10 +148,8 @@ The test indicated that problematic-use scores differed across the five groups, 
 Finally, we examined associations between problematic social media use and three well-being measures: depression, anxiety, and loneliness. Pearson correlations were used to quantify linear associations. Scatterplots show individual observations and fitted linear trends with 95% confidence bands.
 
 ```{r}
-#| label: fig-science-wellbeing
-#| fig-cap: "Figure 3. Associations between problematic social media use and depression, anxiety, and loneliness scores. Lines show least-squares linear fits with 95% confidence bands. Loneliness has four missing observations; its analysis includes 154 students, compared with 158 for depression and anxiety."
-#| fig-width: 9
-#| fig-height: 4.5
+#| label: wellbeing-data
+#| include: false
 
 wellbeing_data <- rbind(
   data.frame(
@@ -147,8 +173,15 @@ wellbeing_data$Outcome <- factor(
   wellbeing_data$Outcome,
   levels = c("Depression", "Anxiety", "Loneliness")
 )
+```
 
-ggplot(
+```{r}
+#| label: fig-science-wellbeing
+#| fig-cap: "Figure 3. Associations between problematic social media use and depression, anxiety, and loneliness scores. Lines show least-squares linear fits with 95% confidence bands. Loneliness has four missing observations; its analysis includes 154 students, compared with 158 for depression and anxiety."
+#| fig-width: 9
+#| fig-height: 4.5
+
+p3 <- ggplot(
   wellbeing_data,
   aes(x = ProblematicUse, y = Score)
 ) +
@@ -164,6 +197,16 @@ ggplot(
     y = "Well-being score"
   ) +
   theme_classic(base_size = 11)
+
+ggsave(
+  "figures/wellbeing_scientific.png",
+  plot = p3,
+  width = 10,
+  height = 5,
+  dpi = 300
+)
+
+p3
 ```
 
 ```{r}
@@ -210,7 +253,7 @@ The responses covered all five reported use categories. The largest groups repor
 #| fig-width: 7
 #| fig-height: 4.5
 
-ggplot(mydata, aes(x = Q16_label)) +
+p4 <- ggplot(mydata, aes(x = Q16_label)) +
   geom_bar(fill = "#168C8C", color = "white") +
   geom_text(
     stat = "count",
@@ -229,6 +272,16 @@ ggplot(mydata, aes(x = Q16_label)) +
     plot.title = element_text(face = "bold"),
     panel.grid.minor = element_blank()
   )
+
+ggsave(
+  "figures/social_media_frequency_accessible.png",
+  plot = p4,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+p4
 ```
 
 ### 2. More Time Often Goes Along With More Problematic Use
@@ -241,7 +294,7 @@ Students in the higher reported-use categories generally had higher problematic-
 #| fig-width: 7
 #| fig-height: 4.5
 
-ggplot(
+p5 <- ggplot(
   mydata,
   aes(x = Q16_label, y = ProblematicUse)
 ) +
@@ -268,6 +321,16 @@ ggplot(
     plot.title = element_text(face = "bold"),
     panel.grid.minor = element_blank()
   )
+
+ggsave(
+  "figures/problematic_use_accessible.png",
+  plot = p5,
+  width = 8,
+  height = 5,
+  dpi = 300
+)
+
+p5
 ```
 
 ### 3. Well-Being Is Not One Single Thing
@@ -280,7 +343,7 @@ Here is the important twist. Problematic social media use was associated with hi
 #| fig-width: 9
 #| fig-height: 4.5
 
-ggplot(
+p6 <- ggplot(
   wellbeing_data,
   aes(x = ProblematicUse, y = Score, color = Outcome)
 ) +
@@ -310,6 +373,16 @@ ggplot(
     panel.grid.minor = element_blank(),
     legend.position = "none"
   )
+
+ggsave(
+  "figures/wellbeing_accessible.png",
+  plot = p6,
+  width = 10,
+  height = 5,
+  dpi = 300
+)
+
+p6
 ```
 
 ### What Should We Take Away?
