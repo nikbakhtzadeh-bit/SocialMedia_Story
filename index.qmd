@@ -19,9 +19,8 @@ The story became more nuanced when we examined well-being outcomes. Problematic 
 
 Together, these findings suggest that the relationship between social media use and student well-being is not simply a story of “more social media is worse.” More frequent use was generally linked to greater problematic use, while problematic use showed different relationships across well-being outcomes.
 
-# Version A: Scientific Article
+# Visualizations
 
-## Social Media Use, Problematic Use, and Well-Being Among First-Year University Students
 
 ### 1. Reported Social Media Use
 
@@ -235,9 +234,8 @@ cor.test(
 
 Problematic-use scores showed modest positive associations with depression (\(r = .233\), \(p = .003\)) and anxiety (\(r = .208\), \(p = .009\)). There was no evidence of a linear association with loneliness (\(r = .035\), \(p = .671\)). These associations do not establish causation.
 
-# Version B: Accessible Story
 
-## Is More Social Media Really Worse for Students?
+## Understanding the Findings
 
 Social media is part of everyday life for many students. But does spending more time on it tell us whether students are struggling? And does problematic use relate to every aspect of well-being in the same way?
 
