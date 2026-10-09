@@ -23,27 +23,21 @@ These are observational findings and do not establish cause-and-effect relations
 
 ### 1. Social Media Use Frequency
 
-![Social media use frequency](figures/social_media_frequency.png)
+![Social media use frequency](figures/social_media_frequency_accessible.png)
 
-### 2. Problematic Social Media Use: Scientific Visualization
+Students reported a range of social media use frequencies. The chart shows the number of students in each reported category.
 
-![Problematic use scientific visualization](figures/problematic_use_scientific.png)
+### 2. Problematic Social Media Use
 
-### 3. Well-Being Outcomes: Scientific Visualization
+![Problematic social media use](figures/problematic_use_accessible.png)
 
-![Well-being scientific visualization](figures/wellbeing_scientific.png)
+Students in higher reported-use categories generally had higher problematic-use scores, although the pattern was not identical across every group.
 
-### 4. Accessible Social Media Use Frequency
+### 3. Social Media Use and Well-Being
 
-![Accessible social media use frequency](figures/social_media_frequency_accessible.png)
+![Social media use and well-being](figures/wellbeing_accessible.png)
 
-### 5. Accessible Problematic Social Media Use
-
-![Accessible problematic use visualization](figures/problematic_use_accessible.png)
-
-### 6. Accessible Well-Being Visualization
-
-![Accessible well-being visualization](figures/wellbeing_accessible.png)
+Problematic social media use was modestly associated with depression and anxiety scores. No statistically significant linear association was found with loneliness. These associations do not establish causation.
 
 ## Data Source
 
@@ -63,7 +57,9 @@ University of Liverpool, *Social Media use on 1st-year Students' Experiences and
 
 ## Limitations
 
-The data are observational and self-reported. The findings do not establish causal relationships and may not generalize to all university students. Four observations were missing from the loneliness analysis, which included 154 students; depression and anxiety analyses included 158 students.
+The data are observational and self-reported. The findings do not establish causal relationships and may not generalize to all university students.
+
+Four observations were missing from the loneliness analysis, which included 154 students; depression and anxiety analyses included 158 students.
 
 The reported frequency categories were treated as ordered groups rather than exact, equally spaced measures of time.
 
