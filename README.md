@@ -67,11 +67,3 @@ The reported frequency categories are treated as ordered groups rather than exac
 ## Author
 
 **Marjan Nikbakhtzadeh**
-
-## Project Website
-
-https://nikbakhtzadeh-bit.github.io/SocialMedia_Story/
-
----
-
-*This project demonstrates how statistical analysis and accessible data storytelling can help communicate research findings to a broader audience.*
